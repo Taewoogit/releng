@@ -22,9 +22,9 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         token_format: 'access_token'
-        workload_identity_provider: projects/YOUR_PROJECT_NUMBER/locations/global/workloadIdentityPools/YOUR_POOL/providers/YOUR_PROVIDER
-        service_account: 'YOUR_SERVICE_ACCOUNT@YOUR_PROJECT_ID.iam.gserviceaccount.com'
-        audience: 'https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME'
+        workload_identity_provider: projects/828614594239/locations/global/workloadIdentityPools/wif-pool/providers/github-provider
+        service_account: 'github-service-account@amazing-source-396109.iam.gserviceaccount.com'
+        audience: 'https://github.com/Taewoogit/releng'
 
     # Set up gcloud CLI environment
     - name: Set up Google Cloud SDK
