@@ -1,6 +1,8 @@
 name: CI/CD Pipeline
 
 on:
+  repository_dispatch:
+    types: [new_image_pushed]
   push:
     branches:
       - main
