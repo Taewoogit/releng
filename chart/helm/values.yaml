@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: your-nodejs-image-name
+  repository: asia-northeast3-docker.pkg.dev/amazing-source-396109/cicd/my-new-image
   pullPolicy: IfNotPresent
-  tag: latest
+  tag: ""
 
 service:
   type: ClusterIP
