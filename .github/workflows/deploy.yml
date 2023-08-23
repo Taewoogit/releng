@@ -8,15 +8,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
     # Authenticate to Google Cloud using WIF
-    - name: Authenticate to Google Cloud
-      uses: google-github-actions/auth@v0.4.0
+    - id: 'auth'
+      name: Authenticate to Google Cloud
+      uses: 'google-github-actions/auth@v1'
       with:
-        token: ${{ secrets.GCP_SA_KEY }}
+        token_format: 'access_token'
+        workload_identity_provider: projects/YOUR_PROJECT_NUMBER/locations/global/workloadIdentityPools/YOUR_POOL/providers/YOUR_PROVIDER
+        service_account: 'YOUR_SERVICE_ACCOUNT@YOUR_PROJECT_ID.iam.gserviceaccount.com'
+        audience: 'https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME'
 
     # Set up gcloud CLI environment
     - name: Set up Google Cloud SDK
@@ -48,5 +56,3 @@ jobs:
     - name: Deploy to GKE
       run: |
         helm upgrade --install my-release-name ./helm-chart --set image.repository=asia-northeast3-docker.pkg.dev/amazing-source-396109/cicd/my-new-image,image.tag=$GITHUB_SHA
-
-
