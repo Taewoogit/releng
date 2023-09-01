@@ -1,8 +1,11 @@
 name: CI/CD Pipeline
 
 on:
-  repository_dispatch:
-    types: [new_image_pushed]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Docker Image Version'
+        required: true
   push:
     branches:
       - main
@@ -50,12 +53,12 @@ jobs:
         TAGS=$(gcloud container images list-tags asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/web --format="get(tags)" | tail -n +2 | tr ',' '\n' | sort -nr | head -1)
         echo "LATEST_TAG=${TAGS}" >> $GITHUB_ENV
 
-    # Update Helm chart's values.yaml
+    # Update Helm chart's values.yaml with the provided version
     - name: Update values.yaml
       run: |
-        sed -i 's/^  tag:.*/  tag: '${{ env.LATEST_TAG }}'/' helm-chart/values.yaml
+        sed -i 's/^  tag:.*$/  tag: "${{ github.event.inputs.version }}"/' helm-chart/values.yaml
 
     # Deploy to GKE using Helm
     - name: Deploy to GKE
       run: |
-        helm upgrade --install my-release-name ./helm-chart --set image.repository=asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/my-new-image,image.tag=$GITHUB_SHA
+        helm upgrade --install my-release-name ./helm-chart --set image.repository=asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/my-new-image,image.tag=${{ github.event.inputs.version }}
