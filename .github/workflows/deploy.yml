@@ -64,4 +64,4 @@ jobs:
     # Deploy to GKE using Helm
     - name: Deploy to GKE
       run: |
-        helm upgrade --install my-release-name ./helm-chart --set image.repository=asia-northeast3-docker.pkg.dev/amazing-source-396109/cicd/my-new-image,image.tag=$GITHUB_SHA
+        helm upgrade --install my-release-name ./helm-chart --set image.repository=asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/my-new-image,image.tag=$GITHUB_SHA
