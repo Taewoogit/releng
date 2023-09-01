@@ -55,11 +55,11 @@ jobs:
 
     # Build a new Docker image with Helm chart and push to another GAR.
     - name: Build new Docker image with Helm chart
-      run: docker build -t asia-northeast3-docker.pkg.dev/amazing-source-396109/cicd/my-new-image:$GITHUB_SHA .
+      run: docker build -t asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/my-new-image:$GITHUB_SHA .
 
     - name: Push new Docker image to the second GAR
       run: |
-        docker push asia-northeast3-docker.pkg.dev/amazing-source-396109/cicd/my-new-image:$GITHUB_SHA
+        docker push asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/my-new-image:$GITHUB_SHA
 
     # Deploy to GKE using Helm
     - name: Deploy to GKE
