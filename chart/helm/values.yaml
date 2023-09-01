@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: asia-northeast3-docker.pkg.dev/amazing-source-396109/cicd/my-new-image
+  repository: asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/web/
   pullPolicy: IfNotPresent
-  tag: ""
+  tag: "23"
 
 service:
   type: ClusterIP
