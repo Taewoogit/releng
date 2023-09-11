@@ -7,11 +7,6 @@ on:
   pull_request:
     branches: [ 'main' ]
 
-env:
-  CHART_PATH: helm-petclinic/
-  RELEASE_NAME: dqa-petclinic
-  NAMESPACE: default
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
