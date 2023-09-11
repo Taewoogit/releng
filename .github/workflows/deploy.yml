@@ -1,6 +1,5 @@
 name: release into the target GKE cluster
 
-
 on:
   push:
     branches: [ 'main' ]
@@ -24,7 +23,7 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         token_format: 'access_token'
-        workload_identity_provider: projects/828614594239/locations/global/workloadIdentityPools/wif-pool/providers/github-provider
+        workload_identity_provider: projects/828614594239/locations/global/workloadIdentityPools/cd-pool/providers/git-cd-provider
         service_account: 'github-service-account@amazing-source-396109.iam.gserviceaccount.com'
         audience: 'https://github.com/Taewoogit/releng'
 
@@ -32,7 +31,7 @@ jobs:
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@main
       with:
-        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        project_id: amazing-source-396109
 
     # Install Helm
     - name: Install Helm
