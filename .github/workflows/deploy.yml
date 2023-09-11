@@ -1,10 +1,16 @@
-name: CI/CD Pipeline
+name: release into the target GKE cluster
+
 
 on:
   push:
     branches: [ 'main' ]
   pull_request:
     branches: [ 'main' ]
+
+env:
+  CHART_PATH: helm-petclinic/
+  RELEASE_NAME: dqa-petclinic
+  NAMESPACE: default
 
 jobs:
   deploy:
