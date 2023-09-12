@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/web/
+  repository: asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/web/*
   pullPolicy: IfNotPresent
   tag: "latest"
 
