@@ -18,7 +18,7 @@ jobs:
 
     uses: ./.github/workflows/deploy.yml
     with:
-      chart_path: helm-nginx/
+      chart_path: chart/helm/
       namespace: nginx
       region: asia-northeast3
       release_name: nginx
