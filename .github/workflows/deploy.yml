@@ -10,7 +10,7 @@ on:
       namespace:
         required: true
         type: string
-      zone:
+      region:
         required: true
         type: string
       release_name:
@@ -69,7 +69,7 @@ jobs:
         run: gcloud components install gke-gcloud-auth-plugin
 
       - name: Get Kubernetes config
-        run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --zone ${{ inputs.zone }} --project ${{ secrets.PROJECT_ID }}
+        run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --region ${{ inputs.region }} --project ${{ secrets.PROJECT_ID }}
 
       - name: Examine the chart for possible issues
         run: helm lint ${{ inputs.chart_path }}
@@ -120,7 +120,7 @@ jobs:
         run: gcloud components install gke-gcloud-auth-plugin
 
       - name: Get Kubernetes config
-        run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --zone ${{ inputs.zone }} --project ${{ secrets.PROJECT_ID }}
+        run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --region ${{ inputs.region }} --project ${{ secrets.PROJECT_ID }}
 
       - name: Examine the chart for possible issues
         run: helm lint ${{ inputs.chart_path }}
