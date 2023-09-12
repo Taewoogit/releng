@@ -7,9 +7,8 @@ on:
         description: Image Tag
         required: true
         type: string
-
-  # push:
-  #   branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   deploy:
