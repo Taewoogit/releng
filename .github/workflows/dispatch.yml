@@ -1,14 +1,14 @@
 name: "[Deploy] Nginx Upgrade the release"
 
 on:
-  #workflow_dispatch:
-  #  inputs:
-  #    image_tag:
-  #      description: Image Tag
-  #      required: true
-  #      type: string
-  push:
-    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Image Tag
+        required: true
+        type: string
+  #push:
+  #  branches: [ master ]
 
 jobs:
   deploy:
