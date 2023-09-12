@@ -14,47 +14,51 @@ jobs:
       contents: read
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+       - name: Checkout
+         uses: actions/checkout@v3
+
+                    
+       - name: Helm tool installer
+         uses: Azure/setup-helm@v3 
 
     # Authenticate to Google Cloud using WIF
-    - id: 'auth'
-      name: Authenticate to Google Cloud
-      uses: 'google-github-actions/auth@v1'
-      with:
-        token_format: 'access_token'
-        workload_identity_provider: projects/828614594239/locations/global/workloadIdentityPools/cd-pool/providers/git-cd-provider
-        service_account: 'cd-service-account@amazing-source-396109.iam.gserviceaccount.com'
-        audience: 'https://github.com/Taewoogit/releng'
+      - id: 'auth'
+        name: Authenticate to Google Cloud
+        uses: 'google-github-actions/auth@v1'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: projects/828614594239/locations/global/workloadIdentityPools/cd-pool/providers/git-cd-provider
+          service_account: 'cd-service-account@amazing-source-396109.iam.gserviceaccount.com'
+          audience: 'https://github.com/Taewoogit/releng'
 
     # Set up gcloud CLI environment
-    - name: Set up Google Cloud SDK
-      uses: google-github-actions/setup-gcloud@main
-      with:
-        project_id: amazing-source-396109
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@main
+        with:
+          project_id: amazing-source-396109
 
     # Install Helm
-    - name: Install Helm
-      run: |
-        HELM_VERSION="3.12.3"
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/v$HELM_VERSION/scripts/get-helm-3
-        chmod 700 get_helm.sh
-        ./get_helm.sh --version $HELM_VERSION
+      - name: Install Helm
+        run: |
+          HELM_VERSION="3.7.0"
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/v$HELM_VERSION/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh --version $HELM_VERSION
 
 
-    # Get the latest tag from the first GAR
-    - name: Get latest tag
-      id: latest-tag
-      run: |
-        TAGS=$(gcloud container images list-tags asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/web --format="get(tags)" | tail -n +2 | tr ',' '\n' | sort -nr | head -1)
-        echo "LATEST_TAG=${TAGS}" >> $GITHUB_ENV
+      # Get the latest tag from the first GAR
+      - name: Get latest tag
+        id: latest-tag
+        run: |
+          TAGS=$(gcloud container images list-tags asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/web --format="get(tags)" | tail -n +2 | tr ',' '\n' | sort -nr | head -1)
+          echo "LATEST_TAG=${TAGS}" >> $GITHUB_ENV
 
-    # Update Helm chart's values.yaml with the provided version
-    - name: Update values.yaml
-      run: |
-        sed -i 's/^  tag:.*$/  tag: "${{ github.event.inputs.version }}"/' helm-chart/values.yaml
+      # Update Helm chart's values.yaml with the provided version
+      - name: Update values.yaml
+        run: |
+          sed -i 's/^  tag:.*$/  tag: "${{ github.event.inputs.version }}"/' helm-chart/values.yaml
 
-    # Deploy to GKE using Helm
-    - name: Deploy to GKE
-      run: |
-        helm upgrade --install my-release-name ./helm-chart --set image.repository=asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/my-new-image,image.tag=${{ github.event.inputs.version }}
+      # Deploy to GKE using Helm
+      - name: Deploy to GKE
+        run: |
+          helm upgrade --install my-release-name ./helm-chart --set image.repository=asia-northeast3-docker.pkg.dev/amazing-source-396109/repository/my-new-image,image.tag=${{ github.event.inputs.version }}
