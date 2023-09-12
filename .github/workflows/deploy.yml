@@ -8,11 +8,12 @@ on:
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
 
-    runs-on: ubuntu-latest
+    
     
     - name: Checkout
       uses: actions/checkout@v3
