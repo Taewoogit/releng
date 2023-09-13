@@ -1,33 +1,38 @@
 name: release into the target GKE cluster
 
 # Controls when the workflow will run
+
 on:
-  workflow_call:
-    inputs:
-      chart_path:
-        required: true
-        type: string
-      namespace:
-        required: true
-        type: string
-      region:
-        required: true
-        type: string
-      release_name:
-        required: true
-        type: string
-      image_tag:
-        required: true
-        type: string       
-    secrets:
-      PROJECT_ID: 
-        required: true
-      GKE_PROVIDER_ID: 
-        required: true
-      CLUSTER_NAME: 
-        required: true
-      GKE_SERVICE_ACCOUNT:
-        required: true
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+#  workflow_call:
+#    inputs:
+#      chart_path:
+#        required: true
+#        type: string
+#      namespace:
+#        required: true
+#        type: string
+#      region:
+#        required: true
+#        type: string
+#      release_name:
+#        required: true
+#        type: string
+#      image_tag:
+#        required: true
+#        type: string       
+#    secrets:
+#      PROJECT_ID: 
+#        required: true
+#      GKE_PROVIDER_ID: 
+#        required: true
+#      CLUSTER_NAME: 
+#        required: true
+#      GKE_SERVICE_ACCOUNT:
+#        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -39,9 +44,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Image tag is override - ${{ inputs.image_tag }}
-        if: ${{ inputs.image_tag != null && inputs.image_tag != ''}}
-        run: echo "OPT_IMAGE_TAG=--set-string image.tag=${{ inputs.image_tag }}" >> $GITHUB_ENV
+      #- name: Image tag is override - ${{ inputs.image_tag }}
+      #  if: ${{ inputs.image_tag != null && inputs.image_tag != ''}}
+       # run: echo "OPT_IMAGE_TAG=--set-string image.tag=${{ inputs.image_tag }}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -78,7 +83,6 @@ jobs:
         run: |
             helm upgrade ${{ inputs.release_name }} ${{ inputs.chart_path }} \
             --namespace ${{ inputs.namespace }} \
-            ${{ env.OPT_IMAGE_TAG }} \
             --install \
             --dry-run
 
@@ -91,9 +95,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Image tag is override - ${{ inputs.image_tag }}
-        if: ${{ inputs.image_tag != null && inputs.image_tag != ''}}
-        run: echo "OPT_IMAGE_TAG=--set-string image.tag=${{ inputs.image_tag }}" >> $GITHUB_ENV
+#      - name: Image tag is override - ${{ inputs.image_tag }}
+#        if: ${{ inputs.image_tag != null && inputs.image_tag != ''}}
+#        run: echo "OPT_IMAGE_TAG=--set-string image.tag=${{ inputs.image_tag }}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -132,5 +136,4 @@ jobs:
         run: |
           helm upgrade ${{ inputs.release_name }} ${{ inputs.chart_path }} \
             --namespace ${{ inputs.namespace }} \
-            ${{ env.OPT_IMAGE_TAG }} \
             --install 
