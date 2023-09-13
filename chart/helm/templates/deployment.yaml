@@ -6,7 +6,6 @@ metadata:
     {{- include "helm-nginx.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "helm-nginx.selectorLabels" . | nindent 6 }}
