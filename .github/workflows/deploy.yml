@@ -3,7 +3,7 @@ name: release into the target GKE cluster
 # Controls when the workflow will run
 
 on:
-  pull_request:
+  push:
     branches: [ "master" ]
 
 env:
