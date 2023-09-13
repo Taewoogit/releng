@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  CHART_PATH: chart/helm/
+  RELEASE_NAME: nginx
+  NAMESPACE: nginx
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   prepare:
