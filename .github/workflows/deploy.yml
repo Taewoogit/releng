@@ -52,7 +52,7 @@ jobs:
       - name: Examine the chart for possible issues
         run: helm lint ${{ env.chart_path }}
 
-      - name: "[MANIFESTS] Dry-run the release"
+      - name: Dry-run the release
         run: |
             helm upgrade ${{ env.release_name }} ${{ env.chart_path }} \
             --namespace ${{ env.namespace }} \
