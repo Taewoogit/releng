@@ -50,7 +50,7 @@ jobs:
         run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.region }} --project ${{ secrets.PROJECT_ID }}
 
       - name: Examine the chart for possible issues
-        run: helm lint ${{ inputs.chart_path }}
+        run: helm lint ${{ env.chart_path }}
 
       - name: "[MANIFESTS] Dry-run the release"
         run: |
@@ -100,7 +100,7 @@ jobs:
         run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.region }} --project ${{ secrets.PROJECT_ID }}
 
       - name: Examine the chart for possible issues
-        run: helm lint ${{ inputs.chart_path }}
+        run: helm lint ${{ env.chart_path }}
 
       - name: Create Namespace
         run: kubectl create namespace nginx --dry-run=client -o yaml | kubectl apply -f -
