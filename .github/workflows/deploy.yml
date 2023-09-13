@@ -102,9 +102,6 @@ jobs:
       - name: Examine the chart for possible issues
         run: helm lint ${{ env.chart_path }}
 
-#      - name: Create Namespace
-#        run: kubectl create namespace nginx --dry-run=client -o yaml | kubectl apply -f -
-
       - name: Upgrade the release
         run: |
           helm upgrade ${{ env.release_name }} ${{ env.chart_path }} \
