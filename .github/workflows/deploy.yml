@@ -7,9 +7,9 @@ on:
     branches: [ "master" ]
 
 env:
-  CHART_PATH: chart/helm/
-  RELEASE_NAME: nginx
-  NAMESPACE: nginx
+  chart_path: chart/helm/
+  release_name: nginx
+  namespace: nginx
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -54,8 +54,8 @@ jobs:
 
       - name: "[MANIFESTS] Dry-run the release"
         run: |
-            helm upgrade ${{ inputs.release_name }} ${{ inputs.chart_path }} \
-            --namespace ${{ inputs.namespace }} \
+            helm upgrade ${{ env.release_name }} ${{ env.chart_path }} \
+            --namespace ${{ env.namespace }} \
             --install \
             --dry-run
 
@@ -107,6 +107,6 @@ jobs:
 
       - name: Upgrade the release
         run: |
-          helm upgrade ${{ inputs.release_name }} ${{ inputs.chart_path }} \
-            --namespace ${{ inputs.namespace }} \
+          helm upgrade ${{ env.release_name }} ${{ env.chart_path }} \
+            --namespace ${{ env.namespace }} \
             --install 
